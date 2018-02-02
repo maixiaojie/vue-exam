@@ -2,7 +2,8 @@ import Vue from 'vue'
 // import Vue from "vue/dist/vue.js"
 import App from './App'
 import router from './router'
-
+import Common from './utils/common'
+Vue.use(Common)
 Vue.config.productionTip = false
 import Toast from '@/components/plugins/toast'
 Vue.use(Toast)

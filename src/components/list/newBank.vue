@@ -10,6 +10,16 @@
 				</div>
 				<div class="addBank" @click="toggleSelectType">+添加问题</div>
 			</div>
+			<div class="questionList" v-for="(item, index) in questionList">
+				<div class="issue">{{item.issue}}</div>
+				<div class="selector">
+					<ul>
+						<li v-for="(selector, i) in item.selector">
+							<span>{{selector.val}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
 			<div class="operation">
 				<Button type="success" title="保存问卷"></Button>
 				<Button type="warning" title="发布问卷"></Button>
@@ -19,6 +29,7 @@
 			title="提示" 
 			:show="isDXModalShow"
 			@close="closeDX"
+			@getData="getData"
 			></Modal>
 	</div>
 </template>
@@ -33,7 +44,14 @@ import Modal from '@/components/modal'
 			return {
 				title: '请输入标题',
 				isDXModalShow: false,
-				questionTypeHeight: 0
+				questionTypeHeight: 0,
+				questionList: [{
+					issue: '撒打算的',
+					selector: [{
+						isRight: 0,
+						val: '选项1'
+					}]
+				}]
 			}
 		},
 		components: {
@@ -55,6 +73,10 @@ import Modal from '@/components/modal'
 			closeDX() {
 				this.isDXModalShow = false
 				this.$toast('关闭')
+			},
+			getData(data) {
+				console.log(data)
+				this.questionList.push(data)
 			}
 		}
 	}
@@ -95,6 +117,12 @@ import Modal from '@/components/modal'
 	width: 100%;
 	margin: 15px 0;
 	height: 30px;
-
+}
+.questionList {
+	width: 96%;
+	padding: 15px 2%;
+	margin: 20px 0;
+	background: #ccc;
+	text-align: left;
 }
 </style>
