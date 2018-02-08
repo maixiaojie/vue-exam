@@ -1,5 +1,7 @@
 <template>
-	<modal name="newBankModal">
+	<div :class="isShow">
+		<div class="shade">
+		</div>
 		<div class="modalContainer">
 			<div class="modalHeader">
 				<span class="title">{{title}}</span>
@@ -35,7 +37,7 @@
 				</div>
 			</div>
 		</div>
-	</modal>
+	</div>
 	
 </template>
 <script type="text/javascript">
@@ -163,6 +165,15 @@
 	}
 </script>
 <style type="text/css">
+.shade {
+	width: 100%;
+	height: 100%;
+	top: 0;
+  	left: 0;
+	position: fixed;
+	background: black;
+	opacity: .3;
+}
 .modalContainer {
 	z-index: 2;
 	position: fixed;

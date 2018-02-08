@@ -1,5 +1,6 @@
 <template>
 	<div class="container">
+		<newBankModal title="添加题目" @getData="getdata" />
 		<div class="newBankContainer">
 			<EditInput :title="title" @changeTitle="showTitle"></EditInput>
 			<ELine size="middle" type="solid" status="default"></ELine>
@@ -25,19 +26,15 @@
 				<Button type="warning" title="发布问卷"></Button>
 			</div>
 		</div>
-		<Modal 
-			title="提示" 
-			:show="isDXModalShow"
-			@close="closeDX"
-			@getData="getData"
-			></Modal>
 	</div>
 </template>
 <script type="text/javascript">
 import EditInput from '@/components/editInput'
 import ELine from '@/components/line'
 import Button from '@/components/button'
-import Modal from '@/components/modal'
+import newBankModal from '@/components/list/newBankModal'
+
+// import Modal from '@/components/modal'
 	export default {
 		name: "newBank",
 		data() {
@@ -46,7 +43,7 @@ import Modal from '@/components/modal'
 				isDXModalShow: false,
 				questionTypeHeight: 0,
 				questionList: [{
-					issue: '撒打算的',
+					issue: '1',
 					selector: [{
 						isRight: 0,
 						val: '选项1'
@@ -58,26 +55,24 @@ import Modal from '@/components/modal'
 			EditInput,
 			ELine,
 			Button,
-			Modal
+			newBankModal
 		},
 		methods: {
 			showTitle(val) {
 				this.title = val;
 			},
 			openDXmodal() {
-				this.isDXModalShow = true
+				this.$modal.show('newBankModal', {'title': ''})
 			},
 			toggleSelectType() {
 				this.questionTypeHeight = this.questionTypeHeight === 50 ? 0 : 50
 			},
-			closeDX() {
-				this.isDXModalShow = false
-				this.$toast('关闭')
-			},
-			getData(data) {
+			getdata(data) {
 				console.log(data)
+				this.$modal.hide('newBankModal')
 				this.questionList.push(data)
 			}
+
 		}
 	}
 </script>

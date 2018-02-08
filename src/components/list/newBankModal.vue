@@ -1,6 +1,6 @@
 <template>
-	<modal name="newBankModal">
-		<div class="modalContainer">
+	<modal name="newBankModal" height="auto" :scrollable="true" @before-open="beforeOpen">
+
 			<div class="modalHeader">
 				<span class="title">{{title}}</span>
 				<span class="close" @click="close">X</span>
@@ -30,22 +30,21 @@
 					你设置的正确答案选项为：{{answer}}
 				</div>
 				<div class="item-no-label">
-					<Button @click="save" type="success" title="保存"></Button>
-					<Button @click="close" type="warning" title="取消"></Button>
+					<Button @click="save"  type="success" title="保存"></Button>
+					<Button @click="close"  type="warning" title="取消"></Button>
 				</div>
 			</div>
-		</div>
-	</modal>
 	
+	</modal>
 </template>
 <script type="text/javascript">
-	import Button from '@/components/button'
+import Button from '@/components/button'
 	export default {
-		name: 'Modal',
-		props: ['title','show'],
+		name: 'newBankModal',
+		props: ['title'],
 		data() {
 			return {
-				isShow: 'm-hide',
+				// title: '',
 				setRight: '设为正确答案',
 				cancelRight: '设为错误答案',
 				answer: [],
@@ -64,18 +63,7 @@
 				}
 			}
 		},
-		computed: {
-			
-		},
-		created() {
-		},
-		components: {
-			Button
-		},
 		watch: {
-			show: function(val) {
-				this.isShow =  val ? 'm-show' : 'm-hide'
-			},
 			'question.selector': {
 				handler(val, old) {
 					let answer = []
@@ -89,15 +77,48 @@
 				deep: true
 			}
 		},
+		beforeDestroy() {
+			this.question =  {
+				issue: '',
+				selector: [{
+					val: '',
+					isRight: 0
+				},{
+					val: '',
+					isRight: 0
+				},{
+					val: '',
+					isRight: 0
+				}]
+			}
+		},
 		methods: {
+			beforeOpen(event) {
+				// this.title = event.params.title
+			},
 			close() {
-				this.$emit('close')
+				this.$modal.hide('newBankModal')
 			},
 			save() {
 				//缺少表单验证
-				//将录入的数据传给父组件
+				////将录入的数据传给父组件
+				this.api.addQuestion(JSON.stringify(this.question))
+				this.close();
 				this.$emit('getData', this.question)
-				this.$emit('close')
+				//清空数据
+				this.question =  {
+				issue: '',
+				selector: [{
+					val: '',
+					isRight: 0
+				},{
+					val: '',
+					isRight: 0
+				},{
+					val: '',
+					isRight: 0
+				}]
+			}
 			},
 			toogleAnswer(index) {
 				var oldValue = this.question.selector[index].isRight
@@ -159,7 +180,10 @@
 				    }
 				}
 			}
-		}
+		},
+		components: {
+			Button
+		},
 	}
 </script>
 <style type="text/css">

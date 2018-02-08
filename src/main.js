@@ -3,7 +3,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Common from './utils/common'
+import VModal from 'vue-js-modal'
+
 Vue.use(Common)
+Vue.use(VModal)
+
 Vue.config.productionTip = false
 import Toast from '@/components/plugins/toast'
 Vue.use(Toast)
